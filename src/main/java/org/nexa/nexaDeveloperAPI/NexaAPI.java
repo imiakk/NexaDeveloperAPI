@@ -30,7 +30,7 @@ public class NexaAPI {
         } else {
             JsonObject obj = new JsonObject();
             obj.addProperty("gameToken", token);
-            JsonObject response = httpManager.POSTRequest("http://api.playnexa.lol/api/test/gameToken", obj);
+            JsonObject response = httpManager.POSTRequest("https://api.playnexa.lol/api/test/gameToken", obj);
 
             if (response.get("status").getAsBoolean()) {
                 plugin.getLogger().info("Token is Verified and Is Valid!");
@@ -53,7 +53,7 @@ public class NexaAPI {
         obj.addProperty("gameToken", token);
         obj.addProperty("username", player.getName());
         obj.addProperty("gamepassid", gamepassID);
-        JsonObject response = httpManager.POSTRequest("http://api.playnexa.lol/api/txn/createGamepassTxn", obj);
+        JsonObject response = httpManager.POSTRequest("https://api.playnexa.lol/api/txn/createGamepassTxn", obj);
 
         if (response.get("status").getAsBoolean()) {
             player.sendMessage(Component.text("[Nexa] Transaction Created, Click here to confirm!").clickEvent(ClickEvent.openUrl("http://localhost:3000/txn/" + response.get("id").getAsString())).color(TextColor.color(52, 70, 235)));
@@ -80,7 +80,7 @@ public class NexaAPI {
         obj.addProperty("gamepassId", gamepassId);
         obj.addProperty("username", player.getName());
 
-        JsonObject response = httpManager.POSTRequest("http://api.playnexa.lol/api/gamepasses/ownsGamepass", obj);
+        JsonObject response = httpManager.POSTRequest("https://api.playnexa.lol/api/gamepasses/ownsGamepass", obj);
 
         if (response.get("status").getAsBoolean()) {
             return response.get("data").getAsBoolean();
