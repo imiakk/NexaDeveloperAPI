@@ -1,0 +1,6 @@
+name: NexaDeveloperAPI
+version: '$version'
+
+main: org.nexa.nexaDeveloperAPI.NexaDeveloperAPI
+api-version: '1.21.11'
+load: POSTWORLD
