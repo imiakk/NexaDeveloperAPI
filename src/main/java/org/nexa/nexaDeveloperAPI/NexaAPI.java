@@ -124,4 +124,20 @@ public class NexaAPI {
 
         return resp.get("status").getAsBoolean();
     }
+
+    /**
+     * Get a Data Store
+     * @param key The name of the Data Store.
+     * @return The value of data store.
+     */
+
+    public String getDataStore(String key) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("gameToken", token);
+        obj.addProperty("key", key);
+
+        JsonObject resp = httpManager.POSTRequest("https://playnexa.lol/api/datastore/getDataStore", obj);
+
+        return resp.get("data").getAsJsonObject().get("value").getAsString();
+    }
 }
