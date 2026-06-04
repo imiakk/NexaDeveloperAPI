@@ -88,4 +88,40 @@ public class NexaAPI {
             return false;
         }
     }
+
+    /**
+     * Add a data store to your game.
+     * @param key The key / the name of the data store.
+     * @param value The value of the data store.
+     * @return A Boolean, True if success, False if not.
+     */
+
+    public Boolean addDataStore(String key, String value) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("gameToken", token);
+        obj.addProperty("key", key);
+        obj.addProperty("value", value);
+
+        JsonObject resp = httpManager.POSTRequest("https://playnexa.lol/api/datastore/createDataStore", obj);
+
+        return resp.get("status").getAsBoolean();
+    }
+
+    /**
+     * Edit a data store.
+     * @param key The name of the data store / the key.
+     * @param value The value you want changed.
+     * @return A Boolean, True if success, False if not.
+     */
+
+    public Boolean editDataStore(String key, String value) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("gameToken", token);
+        obj.addProperty("key", key);
+        obj.addProperty("value", value);
+
+        JsonObject resp = httpManager.POSTRequest("https://playnexa.lol/api/datastore/editDataStore", obj);
+
+        return resp.get("status").getAsBoolean();
+    }
 }
