@@ -102,7 +102,7 @@ public class NexaAPI {
         obj.addProperty("key", key);
         obj.addProperty("value", value);
 
-        JsonObject resp = httpManager.POSTRequest("https://playnexa.lol/api/datastore/createDataStore", obj);
+        JsonObject resp = httpManager.POSTRequest("https://api.playnexa.lol/api/datastore/createDataStore", obj);
 
         return resp.get("status").getAsBoolean();
     }
@@ -120,7 +120,7 @@ public class NexaAPI {
         obj.addProperty("key", key);
         obj.addProperty("value", value);
 
-        JsonObject resp = httpManager.POSTRequest("https://playnexa.lol/api/datastore/editDataStore", obj);
+        JsonObject resp = httpManager.POSTRequest("https://api.playnexa.lol/api/datastore/editDataStore", obj);
 
         return resp.get("status").getAsBoolean();
     }
@@ -136,8 +136,48 @@ public class NexaAPI {
         obj.addProperty("gameToken", token);
         obj.addProperty("key", key);
 
-        JsonObject resp = httpManager.POSTRequest("https://playnexa.lol/api/datastore/getDataStore", obj);
+        JsonObject resp = httpManager.POSTRequest("https://api.playnexa.lol/api/datastore/getDataStore", obj);
 
         return resp.get("data").getAsJsonObject().get("value").getAsString();
+    }
+
+    /**
+     * Check if a User owns a custom Cosmetic.
+     * @param player The Player Instance.
+     * @param cosmeticId The Cosmetic ID.
+     * @return True if the user owns the cosmetic, false if not.
+     */
+    public Boolean checkIfUserOwnsCosmetic(Player player, String cosmeticId) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("gameToken", token);
+        obj.addProperty("cosmeticId", cosmeticId);
+        obj.addProperty("username", player.getName());
+
+        JsonObject response = httpManager.POSTRequest("https://api.playnexa.lol/api/cosmetics/ownsCosmetic", obj);
+
+        if (response.get("status").getAsBoolean()) {
+            return response.get("data").getAsBoolean();
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Check if a User is a Cracked client.
+     * @param player The Player Instance.
+     * @return True if the user is cracked, false if premium.
+     */
+    public Boolean checkIfUserIsCracked(Player player) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("gameToken", token);
+        obj.addProperty("username", player.getName());
+
+        JsonObject response = httpManager.POSTRequest("https://api.playnexa.lol/api/users/checkCracked", obj);
+
+        if (response.get("status").getAsBoolean()) {
+            return response.get("cracked").getAsBoolean();
+        } else {
+            return false;
+        }
     }
 }
