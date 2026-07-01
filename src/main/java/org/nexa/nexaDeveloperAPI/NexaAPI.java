@@ -180,4 +180,45 @@ public class NexaAPI {
             return false;
         }
     }
+
+    /**
+     * Redeem a Promo Code.
+     * @param player The Player Instance.
+     * @param code The promo code string.
+     * @return JsonObject response from the backend.
+     */
+    public JsonObject redeemPromoCode(Player player, String code) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("code", code);
+        obj.addProperty("username", player.getName());
+
+        try {
+            return httpManager.POSTRequest("https://api.playnexa.lol/api/codes/redeem", obj);
+        } catch (Exception e) {
+            JsonObject err = new JsonObject();
+            err.addProperty("status", false);
+            err.addProperty("info", "Failed to contact Nexa API");
+            return err;
+        }
+    }
+
+    /**
+     * Get owned cosmetics details of a user.
+     * @param username The player's username.
+     * @return JsonArray of owned cosmetics.
+     */
+    public com.google.gson.JsonArray getOwnedCosmetics(String username) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("username", username);
+
+        try {
+            JsonObject response = httpManager.POSTRequest("https://api.playnexa.lol/api/cosmetics/owned", obj);
+            if (response.get("status").getAsBoolean()) {
+                return response.get("data").getAsJsonArray();
+            }
+        } catch (Exception e) {
+            plugin.getLogger().warning("Failed to fetch owned cosmetics for " + username);
+        }
+        return new com.google.gson.JsonArray();
+    }
 }

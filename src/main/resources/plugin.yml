@@ -4,3 +4,11 @@ version: '$version'
 main: org.nexa.nexaDeveloperAPI.NexaDeveloperAPI
 api-version: '1.21.11'
 load: POSTWORLD
+
+commands:
+  cosmetics:
+    description: Open your Nexa cosmetics wardrobe
+    usage: /cosmetics
+  redeem:
+    description: Redeem a Nexa promo code
+    usage: /redeem <code>
